@@ -22,11 +22,13 @@ namespace CncPlugin
         public int step_key_2;
         public int step_key_3;
         public int step_key_4;
+        public int step_key_5;
 
         public double jog_step_1;
         public double jog_step_2;
         public double jog_step_3;
         public double jog_step_4;
+        public double jog_step_5;
 
         public string spindle_start;
         public string spindle_stop;
@@ -35,6 +37,8 @@ namespace CncPlugin
         public string jog_unit;
 
         public bool globalkeys;
+        public bool enablespindle;
+
 
 
         public PluginPreferences(IHost h)
@@ -58,15 +62,18 @@ namespace CncPlugin
             jog_step_2 = reg.GetDouble("jog_step_2", 10);
             jog_step_3 = reg.GetDouble("jog_step_3", 1);
             jog_step_4 = reg.GetDouble("jog_step_4", 0.1);
+            jog_step_5 = reg.GetDouble("jog_step_5", 100);
 
             step_key_1 = reg.GetInt("step_key_1", 120); // F9
             step_key_2 = reg.GetInt("step_key_2", 121); // F10
             step_key_3 = reg.GetInt("step_key_3", 122); // F11
             step_key_4 = reg.GetInt("step_key_4", 123); // F12
+            step_key_5 = reg.GetInt("step_key_5", 119); // F8
 
             spindle_start = reg.GetString("spindle_start", "M106 S%p");
             spindle_stop = reg.GetString("spindle_stop", "M107");
             spindle_pwm = reg.GetString("spindle_pwm", "M106 S%p");
+            enablespindle = reg.GetBool("enablespindle", false);
 
             jog_unit = reg.GetString("jog_unit", "mm");
             globalkeys = reg.GetBool("globalkeys", false);
@@ -90,11 +97,13 @@ namespace CncPlugin
             reg.SetDouble("jog_step_2", jog_step_2);
             reg.SetDouble("jog_step_3", jog_step_3);
             reg.SetDouble("jog_step_4", jog_step_4);
+            reg.SetDouble("jog_step_5", jog_step_5);
 
             reg.SetInt("step_key_1", step_key_1);
             reg.SetInt("step_key_2", step_key_2);
             reg.SetInt("step_key_3", step_key_3);
             reg.SetInt("step_key_4", step_key_4);
+            reg.SetInt("step_key_5", step_key_5);
 
             reg.SetString("spindle_start", spindle_start);
             reg.SetString("spindle_stop", spindle_stop);
@@ -103,6 +112,7 @@ namespace CncPlugin
             reg.SetString("jog_unit", jog_unit);
             
             reg.SetBool("globalkeys", globalkeys);
+            reg.SetBool("enablespindle", enablespindle);
 
         }
     }

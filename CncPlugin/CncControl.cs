@@ -34,6 +34,7 @@ namespace CncPlugin
         Hotkey hk8;
         Hotkey hk9;
         Hotkey hk10;
+        Hotkey hk11;
 
         void SetStep(int step)
         {
@@ -65,6 +66,11 @@ namespace CncPlugin
                     btn_step_4.ForeColor = c3;
                     step_size = pref.jog_step_4;
                     break;
+                case 5:
+                    btn_step_5.BackColor = c2;
+                    btn_step_5.ForeColor = c3;
+                    step_size = pref.jog_step_5;
+                    break;
             }
 
             host.LogInfo("CncPlugin: Change step size to " + step_size.ToString() + " " + pref.jog_unit);
@@ -80,11 +86,13 @@ namespace CncPlugin
             btn_step_2.BackColor = c1;
             btn_step_3.BackColor = c1;
             btn_step_4.BackColor = c1;
+            btn_step_5.BackColor = c1;
 
             btn_step_1.ForeColor = c4;
             btn_step_2.ForeColor = c4;
             btn_step_3.ForeColor = c4;
             btn_step_4.ForeColor = c4;
+            btn_step_5.ForeColor = c4;
         }
 
 
@@ -119,6 +127,7 @@ namespace CncPlugin
             if (hk8 != null && hk8.Registered) hk8.Unregister();
             if (hk9 != null && hk9.Registered) hk9.Unregister();
             if (hk10 != null && hk10.Registered) hk10.Unregister();
+            if (hk11 != null && hk11.Registered) hk11.Unregister();
         }
 
         private void RegisterAllHotkeys()
@@ -133,6 +142,7 @@ namespace CncPlugin
             hk8 = RegisterOneKey((Keys)pref.step_key_2);
             hk9 = RegisterOneKey((Keys)pref.step_key_3);
             hk10 = RegisterOneKey((Keys)pref.step_key_4);
+            hk11 = RegisterOneKey((Keys)pref.step_key_5);
         }
 
         private Hotkey RegisterOneKey(Keys k)
@@ -159,7 +169,7 @@ namespace CncPlugin
         // Used for positioning.
         public int ComponentOrder { get { return 8000; } }
         // Where to add it. We want it on the right tab.
-        public PreferredComponentPositions PreferredPosition { get { return PreferredComponentPositions.SIDEBAR; } }
+        public PreferredComponentPositions PreferredPosition { get { return PreferredComponentPositions.MAIN_AREA; } }
         // Return the UserControl.
         public Control ComponentControl { get { return this; } }
 
@@ -268,6 +278,13 @@ namespace CncPlugin
                     flash_button_when_keypressed(btn_step_4);
                     return true;
                 }
+
+                if ((int)keyData == pref.step_key_5)
+                {
+                    SetStep(5);
+                    flash_button_when_keypressed(btn_step_5);
+                    return true;
+                }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -314,6 +331,10 @@ namespace CncPlugin
         private void btn_step4_Click(object sender, EventArgs e)
         {
             SetStep(4);
+        }
+        private void btn_step5_Click(object sender, EventArgs e)
+        {
+            SetStep(5);
         }
 
         ////////////////////////////////////////////////////////////
@@ -501,6 +522,7 @@ namespace CncPlugin
         private void lnkPreferences_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Form f = new preferences(host, pref, this);
+            f.Owner = this;
             f.Show();
         }
 
@@ -511,6 +533,7 @@ namespace CncPlugin
             btn_step_2.Text = pref.jog_step_2.ToString() + " " + pref.jog_unit;
             btn_step_3.Text = pref.jog_step_3.ToString() + " " + pref.jog_unit;
             btn_step_4.Text = pref.jog_step_4.ToString() + " " + pref.jog_unit;
+            btn_step_5.Text = pref.jog_step_5.ToString() + " " + pref.jog_unit;
 
             if (!host.IsMono)
             {
